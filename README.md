@@ -27,10 +27,6 @@ One line per client; your calls, responses and errors are unchanged.
 npm install @agentcost/sdk
 ```
 
-> Not published yet — see "Status" below. Until then, install from a local
-> checkout: `npm install ../agentcost-js` (after `npm run build`), or
-> `npm pack` and install the tarball.
-
 ## Quick start
 
 ```ts
@@ -222,7 +218,7 @@ agentcost.init({
 
 ## Status
 
-Version 0.1.0 (preview). The API may still change before 1.0; see the CHANGELOG.
+Preview (0.x): the API may still change before 1.0. See the [CHANGELOG](CHANGELOG.md).
 
 ## Development
 

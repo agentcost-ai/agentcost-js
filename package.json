@@ -1,6 +1,6 @@
 {
   "name": "@agentcost/sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "AgentCost usage and cost tracking for OpenAI, Anthropic, Google Gen AI, LangChain.js and the Vercel AI SDK",
   "license": "MIT",
   "type": "commonjs",

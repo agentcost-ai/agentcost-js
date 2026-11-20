@@ -3,6 +3,11 @@
 All notable changes to the AgentCost TypeScript / JavaScript SDK.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.2] - 2026-11-20
+
+### Changed
+- README: removed a stale "not published yet" note. No code changes.
+
 ## [0.1.1] - 2026-11-20
 
 ### Changed
