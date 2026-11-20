@@ -1,0 +1,59 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      # Compile with the pinned dev SDKs' types, then run.
+      - run: npm run build && npx tsc -p tsconfig.json && node scripts/postbuild.cjs
+      # The newest dev SDKs (openai 7, ai 7, @langchain/core 1) need Node 20+/22+;
+      # on Node 18 the same compiled tests run against the newest SDKs that support it.
+      - if: matrix.node == 18
+        run: npm install --no-save openai@5.23.2 ai@5.0.291 @ai-sdk/openai@2.0.143 @ai-sdk/provider@2 @langchain/core@0.3.80 @langchain/openai@0.6.17 @google/genai@1.52.0
+      - run: node scripts/run-tests.cjs
+
+  sdk-versions:
+    # Older major versions of each provider SDK against the same compiled tests.
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk:
+          - openai@4.104.0
+          - openai@5.23.2
+          - openai@6.49.0
+          - "@anthropic-ai/sdk@0.40.0"
+          - "@anthropic-ai/sdk@0.137.0"
+          - "@google/genai@1.0.0"
+          - "@google/genai@1.52.0"
+          - "@langchain/core@0.3.80 @langchain/openai@0.6.17"
+          - "ai@5.0.291 @ai-sdk/openai@2.0.143 @ai-sdk/provider@2"
+          - "ai@6.0.333 @ai-sdk/openai@3.0.144"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm install --no-save ${{ matrix.sdk }}
+      - run: node scripts/run-tests.cjs

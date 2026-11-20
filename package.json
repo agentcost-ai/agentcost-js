@@ -1,0 +1,101 @@
+{
+  "name": "@agentcost/sdk",
+  "version": "0.1.1",
+  "description": "AgentCost usage and cost tracking for OpenAI, Anthropic, Google Gen AI, LangChain.js and the Vercel AI SDK",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "dist/cjs",
+    "dist/esm",
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "clean": "node -e \"for (const d of ['dist','dist-test']) require('node:fs').rmSync(d,{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node scripts/postbuild.cjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && tsc -p tsconfig.json && node scripts/postbuild.cjs && node scripts/run-tests.cjs",
+    "prepublishOnly": "npm test"
+  },
+  "peerDependencies": {
+    "openai": ">=4",
+    "@anthropic-ai/sdk": ">=0.20",
+    "@google/genai": ">=1",
+    "@langchain/core": ">=0.2",
+    "ai": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "openai": {
+      "optional": true
+    },
+    "@anthropic-ai/sdk": {
+      "optional": true
+    },
+    "@google/genai": {
+      "optional": true
+    },
+    "@langchain/core": {
+      "optional": true
+    },
+    "ai": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@ai-sdk/openai": "^3.0.144",
+    "@ai-sdk/provider": "^4.0.39",
+    "@anthropic-ai/sdk": "^1.11.0",
+    "@google/genai": "^3.6.1",
+    "@langchain/core": "^1.4.2",
+    "@langchain/openai": "^1.5.8",
+    "@types/node": "20.19.43",
+    "ai": "^7.0.177",
+    "openai": "7.62.0",
+    "typescript": "5.9.3"
+  },
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "llm",
+    "cost",
+    "tracking",
+    "openai",
+    "anthropic",
+    "gemini",
+    "langchain",
+    "ai-sdk",
+    "observability",
+    "agentcost"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentcost-ai/agentcost-js.git"
+  },
+  "homepage": "https://github.com/agentcost-ai/agentcost-js#readme",
+  "bugs": {
+    "url": "https://github.com/agentcost-ai/agentcost-js/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
